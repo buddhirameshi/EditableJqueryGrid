@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="Styles/bootstrap.min.css" rel="stylesheet" />
+    <link href="Styles/Site.css" rel="stylesheet" />
+	<meta charset="utf-8" />
+</head>
+<body class="">
+  
+    <h1 class="page-header text-center line">Editable GridView Demo</h1>
+    <div class="col-md-offset-5">    
+       <input type="text" name="Search" value="Search" id="search" class="text-center text-primary input-lg"/>
+        <div class="inline"> <img id="searchBtn" src="Styles/search.png" class="btn btn-lg" /></div>
+    </div>
+   
+    <div class="col-lg-8 col-lg-offset-2">
+        <table class="table table-bordered table-condensed table-hover" id="itemTbl">
+            <colgroup>
+                <col span="1" style="width: 15%;">
+                <col span="1" style="width: 40%;">
+                <col span="1" style="width: 25%;">
+                <col span="1" style="width: 10%;">
+                <col span="1" style="width: 10%;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Item Id</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+   
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/gridview-sript.1.0.js"></script>
+</body>
+</html>
