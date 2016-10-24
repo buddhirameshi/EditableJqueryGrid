@@ -1,4 +1,4 @@
-﻿
+﻿var itemDataURL = 'http://ramz:4545/api/item/';
 
 $(document).ready(function () {
     loadData();
@@ -11,7 +11,7 @@ function searchData() {
 
 function loadData() {
     $.ajax({
-        url: "http://ramz:4545/api/item/GetItems",
+        url: itemDataURL+"GetItems",
         type: "GET",
         success: displayData,
         error: function (xmlHttpRequest, textStatus, errorThrown) {
@@ -23,7 +23,7 @@ function loadData() {
 
 function getDataById(itemId,rowNum) {
     $.ajax({
-        url: "http://ramz:4545/api/Item/GetItem/"+itemId,
+        url: itemDataURL+"GetItem/"+itemId,
         type: "GET",
         success: function (rowData) {
             displayDataRow(rowData,rowNum);
@@ -53,13 +53,11 @@ function displayDataRow(rowData, rowNum) {
                 $(tds[i]).html(rowData.Price);
                 break;
             case 3:
-
                 $(tds[i]).html("<div class='editBtn'><img src='Styles/Edit.ico' class='imgBtn btn' id='editBtn" + rowNum + "'/></div></td>");
                 break;
                 case4:
                     $(tds[i]).html("<div class='deleteBtn'><img src='Styles/delete.png' class='imgBtn btn' id='deleteBtn" + rowNum + "'/></div></td>");
                 break;
-
             default: break;
         }
     }
@@ -68,7 +66,8 @@ function displayDataRow(rowData, rowNum) {
 
 
 
-    function displayData(gridData) {
+function displayData(gridData) {
+    $("#itemTbl tbody tr").remove();
         $.each(gridData, function (key, value) {
             $('#itemTbl tbody').append('<tr><td>' + value.ItemID + '</td><td>' + value.Description + '</td><td>' + value.Price + '</td><td><div class="editBtn">  <img type="button" src="Styles/Edit.ico" class="imgBtn btn" id="editBtn' + key + '"/></div></td><td><div class="deleteBtn"><img src="Styles/delete.png" class="imgBtn btn" id="deleteBtn' + key + '"/></div></td></tr>');
 
@@ -100,11 +99,12 @@ function displayDataRow(rowData, rowNum) {
         for (var i = 0; i < tds.length; i++) {
             if (i == 0) {
                 itemId = $(tds[i]).html();
+                break;
             }
         }
         $.ajax(
           {
-              url: "http://ramz:4545/api/item/DeleteItem/"+itemId,
+              url: itemDataURL+"DeleteItem/"+itemId,
               type: "DELETE",
               success: function (data) {
                   alert(data);
@@ -145,7 +145,7 @@ function displayDataRow(rowData, rowNum) {
         $.ajax(
             {
 
-                url: "http://ramz:4545/api/item/UpdateItem",
+                url: itemDataURL+"UpdateItem",
                 type: "POST",
                 data: obj,
                 success: function (data) {
@@ -174,10 +174,92 @@ $(document).on("click", "div#cancelBtn", function () {
 
         if (i == 0) {
             itemId = $(tds[i]).html();
+            break;
         }
         }
         getDataById(itemId, rowNum);
 });
+
+
+$(function () {
+    $("#searchId").autocomplete({
+        minLength: 0,
+        source: function(request,response)
+        {
+            $.ajax({
+                url: itemDataURL+"GetItems",
+                type: "GET",
+
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                data: {
+                    filter: request.term,
+                },
+                success: function (data) {                 
+                    var array = $.map(data, function (item) {
+                                            return {
+                                                label: item.Description,
+                                                value: item.ItemID
+                                            }
+                                        });
+                    response($.ui.autocomplete.filter(array, request.term));
+                },
+                error: function (xmlHttpRequest, textStatus, errorThrown) {
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+        },
+        focus: function (event, ui) {
+            $("#searchId").val(ui.item.label);
+            return false;
+        },
+        select: function (event, ui) {
+            $("#itemDescription").html(ui.item.label);
+            return false;
+        }
+    })
+    .data("ui-autocomplete")._renderItem = function (ul, item) {
+        ul.addClass("search");
+        return $("<li'>")
+        .append("<a>"+ item.label +  "</a>")
+        .appendTo(ul);
+    };
+});
+
+
+$("#searchId").focusout(function () {
+    var str = $(this).val();
+    searchedResults(str);
+});
+$('#searchBtn').on("click", function () {
+    var str = $('#searchId').val();
+    searchedResults(str);
+});
+
+
+function searchedResults(str) {
+    $.ajax({
+        url: itemDataURL + "GetItems",
+        type: "GET",
+
+        dataType: "json",
+        contentType: 'application/json; charset=utf-8',
+        data: {
+            filter: str,
+        },
+        success: displayData,
+        error: function (xmlHttpRequest, textStatus, errorThrown) {
+            console.log(textStatus);
+            console.log(errorThrown);
+
+        }
+    });
+}
+
+
+
+
 
 
 

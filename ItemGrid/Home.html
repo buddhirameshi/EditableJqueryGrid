@@ -2,15 +2,19 @@
 <html>
 <head>
     <title></title>
-    <link href="Styles/bootstrap.min.css" rel="stylesheet" />
+    <link href="Styles/bootstrap.css" rel="stylesheet" />
+<link href="Styles/jquery-ui.css" rel="stylesheet" />
+   <!--<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">-->
     <link href="Styles/Site.css" rel="stylesheet" />
 	<meta charset="utf-8" />
 </head>
 <body class="">
   
     <h1 class="page-header text-center line">Editable GridView Demo</h1>
-    <div class="col-md-offset-5">    
-       <input type="text" name="Search" value="Search" id="search" class="text-center text-primary input-lg"/>
+    <div class="col-md-offset-5 ui-widget">  
+        <!--<div class="ui-widget">-->
+            <input type="text" name="Search" id="searchId" class="text-center text-primary input-lg" />
+        <!--</div>-->  
         <div class="inline"> <img id="searchBtn" src="Styles/search.png" class="btn btn-lg" /></div>
     </div>
    
@@ -35,9 +39,14 @@
             <tbody></tbody>
         </table>
     </div>
-   
-    <script src="Scripts/jquery-1.10.2.min.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
+   <script src="Scripts/jquery-1.10.2.js"></script>
+
+    <!--<script src="Scripts/jquery-ui.js"></script>-->
+    <!--<script src="https://code.jquery.com/jquery-1.10.2.js"></script>-->
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/jquery-ui.js"></script>
+    <!--<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>-->
     <script src="Scripts/gridview-sript.1.0.js"></script>
+
 </body>
 </html>

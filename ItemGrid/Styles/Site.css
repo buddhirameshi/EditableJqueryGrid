@@ -16,6 +16,16 @@ h1{
     width: 60px;
     height: 50px;
 }
+.search
+{
+    color:deepskyblue!important;
+    font-family:sans-serif!important;
+    background-color:#EBDEF0;
+    border:solid 0.25px;
+    border-color:aquamarine;
+    border-radius:0.15px;
+}
+
 
 .imgBtn
 {

@@ -1,4 +1,6 @@
 ﻿using Service;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -15,9 +17,17 @@ namespace ItemAPI.Controllers
         // GET: Items
         [HttpGet]
         [Route("api/Item/GetItems")]
-        public IHttpActionResult GetData()
+        public IHttpActionResult GetData([FromUri]string filter=null)
         {
-           return Ok(service.GetData());
+           return Ok(service.GetData(filter));
+        }
+
+        // GET: Items
+        [HttpGet]
+        [Route("api/Item/GetItems/{filter}")]
+        public IHttpActionResult GetFilteredData(string filter)
+        {
+            return Ok(service.GetData(filter));
         }
 
         // GET: Item

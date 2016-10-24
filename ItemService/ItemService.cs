@@ -29,10 +29,10 @@ namespace Service
             return mapper.ToTransferObject(repo.GetById(id));
         }
 
-        public List<ItemDto> GetData()
+        public List<ItemDto> GetData(string filterParam=null)
         {
            
-            return mapper.ToTransferObjectList(repo.GetDataList());
+            return mapper.ToTransferObjectList(repo.GetDataList(filterParam));
         }
 
         public bool DeleteData(int id)
