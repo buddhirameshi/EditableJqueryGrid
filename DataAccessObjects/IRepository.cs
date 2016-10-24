@@ -16,6 +16,6 @@ namespace DataAccessObjects
         bool UpdateData(T t);
         bool DeleteData(int id);
         bool InsertData(T t);
-
+        //int GetItemCount();
     }
 }

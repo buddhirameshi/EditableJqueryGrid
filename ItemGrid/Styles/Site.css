@@ -20,7 +20,7 @@ h1{
 {
     color:deepskyblue!important;
     font-family:sans-serif!important;
-    background-color:#EBDEF0;
+    background-color:#BBFFFF;
     border:solid 0.25px;
     border-color:aquamarine;
     border-radius:0.15px;
@@ -38,7 +38,17 @@ table{
     background-color:antiquewhite;
 }
 
-.inline
+.inline {
+    display: inline;
+}
+
+
+.page-bar :hover
 {
-    display:inline;
+    background-color:#BBFFFF;
+}
+
+.selected
+{
+background-color:darkgray;
 }

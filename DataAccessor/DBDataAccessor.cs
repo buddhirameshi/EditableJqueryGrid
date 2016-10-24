@@ -183,5 +183,43 @@ namespace DataAccessor
 
         }
 
+
+        public static T GetScalar<T>(string sqlConn,string sqlQuery,CommandType type,Dictionary<string,object> inputParams=null)
+        {
+            T t = default(T);
+            using (SqlConnection conn = new SqlConnection(sqlConn))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                    {
+                        cmd.CommandType = type;
+                        if (inputParams != null && inputParams.Count > 0)
+                        {
+                            foreach (var inputParam in inputParams)
+                            {
+                                cmd.Parameters.AddWithValue(inputParam.Key, inputParam.Value);
+                            }
+
+                        }
+                        conn.Open();
+                       t= (T)cmd.ExecuteScalar();
+                    }
+                }
+                catch (DataException ex)
+                {
+                    throw ex;
+                }
+                catch (SqlException ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return t;
+        }
     }
 }

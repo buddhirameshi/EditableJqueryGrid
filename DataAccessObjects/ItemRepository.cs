@@ -21,6 +21,11 @@ namespace DataAccessObjects
             return DBDataAccessor.UpdateData(connectionString, "[dbo].[ItemDeleteData]", CommandType.StoredProcedure,inputParams);
         }
 
+        public int GetItemCount()
+        {
+            return DBDataAccessor.GetScalar<int>(connectionString,"",CommandType.StoredProcedure,null);
+        }
+
         public Item GetById  (int id)
         {
             Dictionary<string, object> inputParams = new Dictionary<string, object>();

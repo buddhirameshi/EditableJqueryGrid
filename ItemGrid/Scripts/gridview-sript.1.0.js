@@ -1,78 +1,13 @@
 ﻿var itemDataURL = 'http://ramz:4545/api/item/';
+var pageId = 1;
+var dataLoad = [];
+var pageSize = 5;
 
 $(document).ready(function () {
     loadData();
 });
 
-function searchData() {
-    alert('hpnd');
-}
 
-
-function loadData() {
-    $.ajax({
-        url: itemDataURL+"GetItems",
-        type: "GET",
-        success: displayData,
-        error: function (xmlHttpRequest, textStatus, errorThrown) {
-            console.log(textStatus);
-            console.log(errorThrown);
-        }
-    });
-}
-
-function getDataById(itemId,rowNum) {
-    $.ajax({
-        url: itemDataURL+"GetItem/"+itemId,
-        type: "GET",
-        success: function (rowData) {
-            displayDataRow(rowData,rowNum);
-        },
-        error: function (xmlHttpRequest, textStatus, errorThrown) {
-            console.log(textStatus);
-            console.log(errorThrown);
-        }
-    });
-
-};
-
-
-
-function displayDataRow(rowData, rowNum) {
-    var row = $('#itemTbl tbody tr').eq(rowNum);
-    var tds = $(row).find("td");
-    for (var i = 0; i < tds.length; i++) {
-        switch (i) {
-            case 0:
-                $(tds[i]).html(rowData.ItemID);
-                break;
-            case 1:
-                $(tds[i]).html(rowData.Description);
-                break;
-            case 2:
-                $(tds[i]).html(rowData.Price);
-                break;
-            case 3:
-                $(tds[i]).html("<div class='editBtn'><img src='Styles/Edit.ico' class='imgBtn btn' id='editBtn" + rowNum + "'/></div></td>");
-                break;
-                case4:
-                    $(tds[i]).html("<div class='deleteBtn'><img src='Styles/delete.png' class='imgBtn btn' id='deleteBtn" + rowNum + "'/></div></td>");
-                break;
-            default: break;
-        }
-    }
-}
-
-
-
-
-function displayData(gridData) {
-    $("#itemTbl tbody tr").remove();
-        $.each(gridData, function (key, value) {
-            $('#itemTbl tbody').append('<tr><td>' + value.ItemID + '</td><td>' + value.Description + '</td><td>' + value.Price + '</td><td><div class="editBtn">  <img type="button" src="Styles/Edit.ico" class="imgBtn btn" id="editBtn' + key + '"/></div></td><td><div class="deleteBtn"><img src="Styles/delete.png" class="imgBtn btn" id="deleteBtn' + key + '"/></div></td></tr>');
-
-        });
-    }
 
     $(document).on("click", "div.editBtn", function () {
         var row = $(this).closest("tr");
@@ -107,8 +42,11 @@ function displayData(gridData) {
               url: itemDataURL+"DeleteItem/"+itemId,
               type: "DELETE",
               success: function (data) {
-                  alert(data);
-                  row.remove();
+                  
+                  dataLoad = dataLoad.filter(function (item) {
+                      return item.ItemID != itemId;
+                  });
+                  displayData(dataLoad);
               },
               error: function (xmlHttpRequest, textStatus, errorThrown) {
                   console.log(textStatus);
@@ -238,6 +176,81 @@ $('#searchBtn').on("click", function () {
 });
 
 
+/*Reusable Functions regon*/
+
+function loadData() {
+    $.ajax({
+        url: itemDataURL + "GetItems",
+        type: "GET",
+        success: function (data) {
+            dataLoad = data;
+            displayData(data);
+        },
+        error: function (xmlHttpRequest, textStatus, errorThrown) {
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+}
+
+function getDataById(itemId, rowNum) {
+    $.ajax({
+        url: itemDataURL + "GetItem/" + itemId,
+        type: "GET",
+        success: function (rowData) {
+            displayDataRow(rowData, rowNum);
+        },
+        error: function (xmlHttpRequest, textStatus, errorThrown) {
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+
+};
+
+
+
+function displayDataRow(rowData, rowNum) {
+    var row = $('#itemTbl tbody tr').eq(rowNum);
+    var tds = $(row).find("td");
+    for (var i = 0; i < tds.length; i++) {
+        switch (i) {
+            case 0:
+                $(tds[i]).html(rowData.ItemID);
+                break;
+            case 1:
+                $(tds[i]).html(rowData.Description);
+                break;
+            case 2:
+                $(tds[i]).html(rowData.Price);
+                break;
+            case 3:
+                $(tds[i]).html("<div class='editBtn'><img src='Styles/Edit.ico' class='imgBtn btn' id='editBtn" + rowNum + "'/></div></td>");
+                break;
+                case4:
+                    $(tds[i]).html("<div class='deleteBtn'><img src='Styles/delete.png' class='imgBtn btn' id='deleteBtn" + rowNum + "'/></div></td>");
+                break;
+            default: break;
+        }
+    }
+}
+
+
+
+
+function displayData(gridData) {
+    $("#itemTbl tbody tr").remove();
+    $('.page-bar input').remove();
+    var begin = (pageId-1) * pageSize;
+    var end = (pageId) * pageSize;
+    var filtered = $(gridData).slice(begin,end);
+    
+    $.each(filtered, function (key, value) {
+        $('#itemTbl tbody').append('<tr><td>' + value.ItemID + '</td><td>' + value.Description + '</td><td>' + value.Price + '</td><td><div class="editBtn">  <img type="button" src="Styles/Edit.ico" class="imgBtn btn" id="editBtn' + key + '"/></div></td><td><div class="deleteBtn"><img src="Styles/delete.png" class="imgBtn btn" id="deleteBtn' + key + '"/></div></td></tr>');
+    });
+    setPages(gridData.length);
+}
+
 function searchedResults(str) {
     $.ajax({
         url: itemDataURL + "GetItems",
@@ -252,10 +265,78 @@ function searchedResults(str) {
         error: function (xmlHttpRequest, textStatus, errorThrown) {
             console.log(textStatus);
             console.log(errorThrown);
-
         }
     });
 }
+
+function setPages(itemCount) {
+  //  var pageCount = 0;
+    pageCount = (itemCount / pageSize).ceil();
+    if (pageCount > 1 && pageId < pageCount && pageId > 1) {       
+        $('.page-bar').append('<input class="text-primary input-lg pageNum" id="home" value="<<" type="button"/><input class="text-primary input-lg pageNum" id="prev" value="<" type="button"/>');
+
+        for (var i = 1; i <= pageCount; i++) {
+          
+            $('.page-bar').append('<input class="text-primary input-lg pageNum" id="' + i + '" value="' + i + '" type="button"/>');
+        }
+        $('.page-bar').append('<input class="text-primary input-lg pageNum" id="next" value=">" type="button"/><input class="text-primary input-lg pageNum" id="end" value=">>" type="button"/>');
+    }
+    else if (pageId == 1 &&  pageCount>1) {
+        for (var i = 1; i <= pageCount; i++) {
+            $('.page-bar').append('<input class="text-primary input-lg pageNum" id="' + i + '" value="' + i + '" type="button"/>');
+        }
+        $('.page-bar').append('<input class="text-primary input-lg pageNum" id="next" value=">" type="button"/><input class="text-primary input-lg pageNum" id="end" value=">>" type="button"/>');
+
+    }
+    else if (pageId == pageCount && pageCount > 1) {
+        $('.page-bar').append('<input class="text-primary input-lg pageNum" id="home" value="<<" type="button"/><input class="text-primary input-lg pageNum" id="prev" value="<" type="button"/>');
+
+        for (var i = 1; i <= pageCount; i++) {
+            $('.page-bar').append('<input class="text-primary input-lg pageNum" id="' + i + '" value="' + i + '" type="button"/>');
+        }
+
+    }
+    $(document).find('input[id="'+pageId+'"]').addClass('selected');
+
+
+
+}
+
+$(document).on("click", "input.pageNum", function () {
+    var selectedPage = $(this).val();
+    if(selectedPage=='<<')
+    {
+        pageId = 1;
+    }
+    else if(selectedPage=='<')
+    {
+        pageId--;
+    }
+    else if (selectedPage == '>')
+    {
+        pageId++;
+    }
+    else if (selectedPage == '>>')
+    {   
+        pageId = (dataLoad.length / pageSize).ceil();
+    }
+    else
+    {
+        pageId = selectedPage;
+    }
+    displayData(dataLoad);
+   
+});
+
+
+Number.prototype.ceil = function () {
+    return Math.ceil(this);
+}
+    
+
+
+
+/*End of reusable functions region*/
 
 
 

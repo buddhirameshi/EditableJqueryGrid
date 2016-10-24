@@ -29,6 +29,11 @@ namespace Service
             return mapper.ToTransferObject(repo.GetById(id));
         }
 
+        //public int GetItemCount()
+        //{
+        //    return repo.GetItemCount();
+        //}
+
         public List<ItemDto> GetData(string filterParam=null)
         {
            

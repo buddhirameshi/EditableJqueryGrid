@@ -30,6 +30,14 @@ namespace ItemAPI.Controllers
             return Ok(service.GetData(filter));
         }
 
+        //// GET:Total Item Count
+        //[HttpGet]
+        //[Route("api/Item/GetItemCount")]
+        //public IHttpActionResult GetItemCount()
+        //{
+        //    return Ok(service.GetItemCount());
+        //}
+
         // GET: Item
         [HttpGet]
         [Route("api/Item/GetItem/{id}")]
