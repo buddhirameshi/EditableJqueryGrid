@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoCompleteExmaple.html" />
+    <Content Include="Home.html" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -97,7 +98,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Home.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\gridview-sript.1.0.js" />
