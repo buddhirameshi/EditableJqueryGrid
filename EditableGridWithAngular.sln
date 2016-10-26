@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemAPI", "ItemAPI\ItemAPI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemGrid", "ItemGrid\ItemGrid.csproj", "{53B7D267-C2D5-42EB-B406-E3EE410AAC89}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DB", "DB\DB.sqlproj", "{AC919FD4-7440-414A-A03B-3ED4655245D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,12 @@ Global
 		{53B7D267-C2D5-42EB-B406-E3EE410AAC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53B7D267-C2D5-42EB-B406-E3EE410AAC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53B7D267-C2D5-42EB-B406-E3EE410AAC89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC919FD4-7440-414A-A03B-3ED4655245D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC919FD4-7440-414A-A03B-3ED4655245D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC919FD4-7440-414A-A03B-3ED4655245D3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{AC919FD4-7440-414A-A03B-3ED4655245D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC919FD4-7440-414A-A03B-3ED4655245D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC919FD4-7440-414A-A03B-3ED4655245D3}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
