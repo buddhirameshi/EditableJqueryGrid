@@ -1,14 +1,28 @@
-﻿var itemDataURL = 'http://ramz:4545/api/item/';
+﻿var itemDataURL = 'http://localhost:52944/api/item/';
 var pageId = 1;
 var dataLoad = [];
 var pageSize = 5;
-
+var sortParam;
+var isSortDirAsc;
 
 $(document).ready(function () {
     loadData();
 });
 
 
+$(document).on('click', '.sortBtn', function () {
+    sortParam = $.trim($(this).closest('th').text());
+    sortDir = $(this).attr('id');
+    if (/up/i.test(sortDir))
+    {
+        isSortDirAsc = false;
+    }
+    else if (/down/i.test(sortDir))
+    {
+        isSortDirAsc = true;
+}
+    loadData();
+});
 
 $(document).on("click", "div.editBtn", function () {
     var row = $(this).closest("tr");
@@ -114,8 +128,8 @@ $('#addNewDescription').focusout(function () {
 });
 
 $(document).on('focusout', '#itemTbl tbody tr td:nth-child(2) input', function () {
-    var id=$(this).attr('id');
-   checkDescription(id);
+    var id = $(this).attr('id');
+    checkDescription(id);
 });
 
 $(document).on('focusout', '#itemTbl tbody tr td:nth-child(3) input', function () {
@@ -235,6 +249,7 @@ function loadData() {
     $.ajax({
         url: itemDataURL + "GetItems",
         type: "GET",
+        data: { filter: "", sort: sortParam, isSortDirAsc: isSortDirAsc },
         success: function (data) {
             dataLoad = data;
             displayData(data);
@@ -293,10 +308,12 @@ function displayData(gridData) {
     var begin = (pageId - 1) * pageSize;
     var end = (pageId) * pageSize;
     var filtered = $(gridData).slice(begin, end);
-
+    var tableData = [];
     $.each(filtered, function (key, value) {
-        $('#itemTbl tbody').append('<tr><td>' + value.ItemID + '</td><td>' + value.Description + '</td><td>' + value.Price + '</td><td><div class="editBtn">  <img type="button" src="Styles/Edit.ico" class="imgBtn btn" id="editBtn' + key + '"/></div></td><td><div class="deleteBtn"><img src="Styles/delete.png" class="imgBtn btn" id="deleteBtn' + key + '"/></div></td></tr>');
+        tableData.push('<tr><td>' + value.ItemID + '</td><td>' + value.Description + '</td><td>' + value.Price + '</td><td><div class="editBtn">  <img type="button" src="Styles/Edit.ico" class="imgBtn btn" id="editBtn' + key + '"/></div></td><td><div class="deleteBtn"><img src="Styles/delete.png" class="imgBtn btn" id="deleteBtn' + key + '"/></div></td></tr>');
     });
+    var tblBody = tableData.join();
+    $('#itemTbl tbody').append(tblBody);
     setPages(gridData.length);
 }
 
@@ -371,34 +388,18 @@ $(document).on("click", "input.pageNum", function () {
 
 function checkDescription(elementId) {
     var isValidDescription;
-    var element = document.getElementById(elementId);
-    var description = element.value;
+    var description = $('#'+elementId).val();
     if (description == '' || description == 'undefined') {
         isValidDescription = false;
-        if (element.className != 'error') {
-
-            element.className += 'error';
-        }
-
-        //element.append('<spand>Please enter a valid description</span>');
-    }
+        $('#' + elementId).addClass('error');
+   }
     else if (description.length > 50) {
         isValidDescription = false;
-        if (element.className != 'error') {
-
-            element.className += 'error';
-        }
-
-     //   element.append('<spand>Max allowed character limit is 50</span>');
+        $('#' + elementId).addClass('error');
     }
     else {
         isValidDescription = true;
-        if (element.className == 'error') {
-
-            element.className -= 'error';
-        }
-
-     //   element.removeChild('span');
+        $('#' + elementId).removeClass('error');
     }
     return isValidDescription;
 
@@ -406,37 +407,24 @@ function checkDescription(elementId) {
 
 function checkPrice(elementId) {
     var isValidPrice;
-    var element = document.getElementById(elementId);
     var currency_regex = /^\$?(\d*)(\.?\d{0,4})$/;
-    var price = element.value;
+    var price = $('#' + elementId).val();
     if (price == '' || price == 'undefined') {
         isValidPrice = false;
-        if (element.className != 'error') {
-
-            element.className += 'error';
-}
-        //$(elementId).append('<spand>Please enter a valid price</span>');
-
+        $('#' + elementId).addClass('error');
     }
     else if (!currency_regex.test(price)) {
         isValidPrice = false;
-        if (element.className != 'error') {
+        $('#' + elementId).addClass('error');
 
-            element.className += 'error';
-        }
-       // $(elementId).append('<spand>Please enter a valid currency value</span>');
     }
     else {
         isValidPrice = true;
-        if (element.className == 'error') {
-            element.className -= 'error';
-        }
-     //   $(elementId + ' span').remove();
+        $('#' + elementId).removeClass('error');
+
     }
     return isValidPrice;
 }
-
-
 
 Number.prototype.ceil = function () {
     return Math.ceil(this);
@@ -448,8 +436,7 @@ function Item(ItemId, Description, Price) {
     this.description = Description;
     this.checkPrice = function () {
         var currency_regex = /^\$?(\d*)(\.?\d{0,4})$/;
-        if (this.price == '' || this.price == 'undefined')
-        {
+        if (this.price == '' || this.price == 'undefined') {
             return 'Please enter a valid price';
         }
         else if (!currency_regex.test(this.price)) {
@@ -460,8 +447,7 @@ function Item(ItemId, Description, Price) {
         }
 
     }
-    this.checkDescription = function()
-    {
+    this.checkDescription = function () {
         if (this.description == '' || this.description == 'undefined') {
             return 'Please enter a valid description';
         }
@@ -472,7 +458,7 @@ function Item(ItemId, Description, Price) {
             return true;
         }
 
-}
+    }
 
 }
 

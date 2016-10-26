@@ -9,17 +9,17 @@
 	<meta charset="utf-8" />
 </head>
 <body class="">
-  
+
     <h1 class="page-header text-center line">Editable GridView Demo</h1>
-    <div class="col-md-offset-5 ui-widget">  
+    <div class="col-md-offset-5 ui-widget">
         <!--<div class="ui-widget">-->
-            <input type="text" name="Search" id="searchId" class="text-center text-primary input-lg" />
-        <!--</div>-->  
+        <input type="text" name="Search" id="searchId" class="text-center text-primary input-lg" />
+        <!--</div>-->
         <div class="inline"> <img id="searchBtn" src="Styles/search.png" class="btn btn-lg" /></div>
     </div>
-   
+
     <div class="col-lg-8 col-lg-offset-2">
-        <table class="table table-bordered table-condensed table-hover" id="itemTbl">
+        <table class="table table-bordered table-condensed table-hover text-center" id="itemTbl">
             <colgroup>
                 <col span="1" style="width: 15%;">
                 <col span="1" style="width: 40%;">
@@ -29,35 +29,56 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th>Item Id</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            <tfoot>
-                <tr>
-                    <td></td>
-                    <td><input type="text" id="addNewDescription" title="Description"/></td>
-                    <td><input  type="text" id="addNewPrice" title="Price" /></td>             
-                    <td><div><img src="Styles/add.ico" class="imgBtn btn" id="addBtn"/></div></td> 
-                <td></td>
-                </tr>
-            </tfoot>
-        </table>
+                    <!--<th><input type="button" id="itemIdHeader" class="btn sortBtn" value="ItemId"/></th>-->
+                    <th>
+                        <!--<input type="button" id="itemIdHeader" class="btn sortBtn" value="ItemId" />-->
+                        ItemId
+                        <div>
+                            <a class="glyphicon glyphicon-arrow-up sortBtn" id="itemIdUp"></a>
+                            <a class="glyphicon glyphicon-arrow-down sortBtn" id="itemIdDown"></a>
+                        </div>
+                    </th>
+
+                    <th>
+                        Description
+                        <div>
+                            <a class="glyphicon glyphicon-arrow-up sortBtn" id="descUp"></a>
+                            <a class="glyphicon glyphicon-arrow-down sortBtn" id="descDown"></a>
+                        </div>
+                    </th>
+
+                    <th>
+                        Price
+    <div>
+    <a class="glyphicon glyphicon-arrow-up sortBtn" id="priceUp"></a>
+    <a class="glyphicon glyphicon-arrow-down sortBtn" id="priceDown"></a>
+    </div>
+    <th></th>
+    <th></th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td><input type="text" id="addNewDescription" title="Description" /></td>
+            <td><input type="text" id="addNewPrice" title="Price" /></td>
+            <td><div><img src="Styles/add.ico" class="imgBtn btn" id="addBtn" /></div></td>
+            <td></td>
+        </tr>
+    </tfoot>
+    </table>
     </div>
 
     <div class="row col-lg-3">
 
     </div>
-        <div class="col-lg-8 pagination panel-group page-bar">
+    <div class="col-lg-8 pagination panel-group page-bar">
 
-        </div>
+    </div>
 
 
-   <script src="Scripts/jquery-1.10.2.js"></script>
+    <script src="Scripts/jquery-1.10.2.js"></script>
 
     <!--<script src="Scripts/jquery-ui.js"></script>-->
     <!--<script src="https://code.jquery.com/jquery-1.10.2.js"></script>-->

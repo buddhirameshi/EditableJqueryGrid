@@ -88,8 +88,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoCompleteExmaple.html" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Home.html" />
     <Content Include="packages.config" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="Styles\bootstrap-theme.css.map" />
+    <Content Include="Styles\bootstrap-theme.min.css.map" />
+    <Content Include="Styles\bootstrap.css.map" />
+    <Content Include="Styles\bootstrap.min.css.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -106,10 +116,15 @@
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Styles\add.ico" />
+    <Content Include="Styles\bootstrap-theme.css" />
+    <Content Include="Styles\bootstrap-theme.min.css" />
     <Content Include="Styles\bootstrap.css" />
     <Content Include="Styles\bootstrap.min.css" />
     <Content Include="Styles\cancel.ico" />
     <Content Include="Styles\delete.png" />
+    <Content Include="Styles\down.png" />
+    <Content Include="Styles\down.jpg" />
+    <Content Include="Styles\up.png" />
     <Content Include="Styles\Edit.ico" />
     <Content Include="Styles\jquery-ui.css" />
     <Content Include="Styles\jquery-ui.min.css" />

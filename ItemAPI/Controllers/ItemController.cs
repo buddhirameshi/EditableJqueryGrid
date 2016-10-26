@@ -17,9 +17,9 @@ namespace ItemAPI.Controllers
         // GET: Items
         [HttpGet]
         [Route("api/Item/GetItems")]
-        public IHttpActionResult GetData([FromUri]string filter=null)
+        public IHttpActionResult GetData([FromUri]string filter=null,[FromUri]string sort=null,[FromUri] bool isSortDirAsc=false)
         {
-           return Ok(service.GetData(filter));
+           return Ok(service.GetData(filter,sort,isSortDirAsc));
         }
 
         // GET: Items

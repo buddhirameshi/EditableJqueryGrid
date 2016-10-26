@@ -34,10 +34,10 @@ namespace Service
         //    return repo.GetItemCount();
         //}
 
-        public List<ItemDto> GetData(string filterParam=null)
+        public List<ItemDto> GetData(string filterParam=null,string sortParam=null,bool isSortDirAsc=false)
         {
            
-            return mapper.ToTransferObjectList(repo.GetDataList(filterParam));
+            return mapper.ToTransferObjectList(repo.GetDataList(filterParam,sortParam,isSortDirAsc));
         }
 
         public bool DeleteData(int id)

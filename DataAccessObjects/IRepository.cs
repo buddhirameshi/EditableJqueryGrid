@@ -12,7 +12,7 @@ namespace DataAccessObjects
     {
         T GetById(int id);
         //DataTable GetDataTable();
-        List<T> GetDataList(string filter=null);
+        List<T> GetDataList(string filter=null,string sort=null,bool isSortDirAsc=false);
         bool UpdateData(T t);
         bool DeleteData(int id);
         bool InsertData(T t);

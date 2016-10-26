@@ -33,13 +33,19 @@ namespace DataAccessObjects
             return DBDataAccessor.GetItem(connectionString, "[dbo].[ItemGetDataById]", CommandType.StoredProcedure, SetItem,inputParams);
         }
 
-        public List<Item> GetDataList(string filterParm=null)
+        public List<Item> GetDataList(string filterParm=null,string sort=null,bool isSortDirAsc=false)
         {
-            Dictionary<string, object> inputParams=null;
+            Dictionary<string, object> inputParams=new Dictionary<string, object>();
             if (!string.IsNullOrEmpty(filterParm))
-            {                 inputParams = new Dictionary<string, object>();
+            {
                 inputParams.Add("@filter", filterParm);
+
             }
+            if (!string.IsNullOrEmpty(sort))
+            {
+                inputParams.Add("@sort", string.Format("{0}",sort));
+            }
+            inputParams.Add("@isSortDirAsc", isSortDirAsc);
             return DBDataAccessor.GetItemList(connectionString, "[dbo].[ItemGetData]", CommandType.StoredProcedure, SetItem, inputParams);
         }
 
