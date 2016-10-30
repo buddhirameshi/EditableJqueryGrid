@@ -63,6 +63,9 @@ $(document).on("click", "div.deleteBtn", function () {
                   return item.ItemID != itemId;
               });
               displayData(dataLoad);
+              $('#dialog').append('<p>Item with ID '+itemId+' deleted successfully!</p>');
+              $("#dialog").attr('title', 'Deletion Completed');
+              $('#dialog').dialog();
           },
           error: function (xmlHttpRequest, textStatus, errorThrown) {
               console.log(textStatus);
@@ -106,11 +109,11 @@ $(document).on("click", "div#updateBtn", function () {
                 type: "POST",
                 data: obj,
                 success: function (data) {
-                    console.log(data);
+                    $('#dialog').append('<p>Successfully Updated!</p>');
+                    $("#dialog").attr('title', 'Updated th entry successfully');
+                    $('#dialog').dialog();
                 },
                 error: function (xmlHttpRequest, textStatus, errorThrown) {
-                    console.log(textStatus);
-                    console.log(errorThrown);
                 }
             });
 
@@ -159,6 +162,9 @@ $('#addBtn').click(function () {
                     isvalidPrice = false;
                     $('#addNewPrice').val('');
                     $('#addNewDescription').val('');
+                    $('#dialog').append('<p>Item added successfully!</p>');
+                    $("#dialog").attr('title', 'Successfully Added');
+                    $('#dialog').dialog();
                 },
                 error: function (xmlHttpRequest, textStatus, errorThrown) {
                     console.log(textStatus);
@@ -184,6 +190,9 @@ $(document).on("click", "div#cancelBtn", function () {
         }
     }
     getDataById(itemId, rowNum);
+    $('#dialog').append('<p>Edit is cabcelled!</p>');
+    $("#dialog").attr('title', 'Cencelled');
+    $('#dialog').dialog();
 });
 
 
