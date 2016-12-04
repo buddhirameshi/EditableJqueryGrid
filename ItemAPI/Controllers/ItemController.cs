@@ -1,4 +1,6 @@
-﻿using Service;
+﻿using BusinessObjects;
+using DataAccessObjects;
+using Service;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -10,9 +12,12 @@ namespace ItemAPI.Controllers
     //  [EnableCors(origins: "http://localhost:60977,http://ramz", headers: "*", methods: "*")]
     public class ItemController : ApiController
     {
-
-        ItemService service = new ItemService();
-
+        IRepository<Item> repo = new ItemRepository();
+        ItemService service;
+       public ItemController()
+        {
+             service = new ItemService(repo);
+        }
 
         // GET: Items
         [HttpGet]
@@ -29,6 +34,8 @@ namespace ItemAPI.Controllers
         {
             return Ok(service.GetData(filter));
         }
+
+
 
         //// GET:Total Item Count
         //[HttpGet]
@@ -73,7 +80,7 @@ namespace ItemAPI.Controllers
 
         // Update: Item
         [Route("api/Item/UpdateItem")]
-        [HttpPost]
+        [HttpPut]
         public IHttpActionResult UpdateData([FromBody]ItemDto oneItem)
         {
             if (oneItem == null||oneItem.ItemID==0||oneItem.ItemID<0)

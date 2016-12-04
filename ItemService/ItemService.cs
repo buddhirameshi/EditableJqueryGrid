@@ -14,9 +14,9 @@ namespace Service
         IRepository<Item> repo;
         ItemObjectMapper mapper;
 
-        public ItemService()
+        public ItemService(IRepository<Item> repo)
         {
-            repo = new ItemRepository();
+            this.repo = repo;
             mapper = new ItemObjectMapper();
         }
 

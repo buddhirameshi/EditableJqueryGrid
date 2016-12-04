@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 
 namespace DataAccessor
 {
-   public static class DBDataAccessor
+    public static class DBDataAccessor
     {
 
-        public static T GetItem<T>(string sqlConn,string sqlQuery,CommandType type,Func<IDataReader,T> Map,Dictionary<string,object>  inputParams=null)
+
+
+
+        public static T GetItem<T>(string sqlConn, string sqlQuery, CommandType type, Func<IDataReader, T> Map, Dictionary<string, object> inputParams = null)
         {
             T t = default(T);
             using (SqlConnection conn = new SqlConnection(sqlConn))
@@ -55,11 +58,11 @@ namespace DataAccessor
                     conn.Close();
                 }
             }
-                return t;
+            return t;
         }
 
 
-        public static List<T> GetItemList <T>( string sqlConn, string sqlQuery, CommandType type, Func<IDataReader, T> Map, Dictionary<string, object> inputParams = null)
+        public static List<T> GetItemList<T>(string sqlConn, string sqlQuery, CommandType type, Func<IDataReader, T> Map, Dictionary<string, object> inputParams = null)
         {
             List<T> setOfT = new List<T>();
             using (SqlConnection conn = new SqlConnection(sqlConn))
@@ -79,19 +82,19 @@ namespace DataAccessor
                         }
                         conn.Open();
                         SqlDataReader dr = cmd.ExecuteReader();
-                            while (dr.Read())
-                            {
+                        while (dr.Read())
+                        {
 
-                                try
-                                {
-                                    T t = default(T);
-                                    t = Map(dr);
-                                    setOfT.Add(t);
-                                }
-                                catch (Exception)
-                                {
-                                    continue;
-                                }
+                            try
+                            {
+                                T t = default(T);
+                                t = Map(dr);
+                                setOfT.Add(t);
+                            }
+                            catch (Exception)
+                            {
+                                continue;
+                            }
                         }
                     }
                 }
@@ -118,7 +121,7 @@ namespace DataAccessor
                     {
                         SqlDataAdapter adapter = new SqlDataAdapter();
                         cmd.CommandType = type;
-                         if (inputParams != null && inputParams.Count > 0)
+                        if (inputParams != null && inputParams.Count > 0)
                         {
                             foreach (var inputParam in inputParams)
                             {
@@ -184,42 +187,46 @@ namespace DataAccessor
         }
 
 
-        public static T GetScalar<T>(string sqlConn,string sqlQuery,CommandType type,Dictionary<string,object> inputParams=null)
-        {
-            T t = default(T);
-            using (SqlConnection conn = new SqlConnection(sqlConn))
-            {
-                try
-                {
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
-                    {
-                        cmd.CommandType = type;
-                        if (inputParams != null && inputParams.Count > 0)
-                        {
-                            foreach (var inputParam in inputParams)
-                            {
-                                cmd.Parameters.AddWithValue(inputParam.Key, inputParam.Value);
-                            }
 
-                        }
-                        conn.Open();
-                       t= (T)cmd.ExecuteScalar();
+
+
+
+public static T GetScalar<T>(string sqlConn, string sqlQuery, CommandType type, Dictionary<string, object> inputParams = null)
+{
+    T t = default(T);
+    using (SqlConnection conn = new SqlConnection(sqlConn))
+    {
+        try
+        {
+            using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+            {
+                cmd.CommandType = type;
+                if (inputParams != null && inputParams.Count > 0)
+                {
+                    foreach (var inputParam in inputParams)
+                    {
+                        cmd.Parameters.AddWithValue(inputParam.Key, inputParam.Value);
                     }
+
                 }
-                catch (DataException ex)
-                {
-                    throw ex;
-                }
-                catch (SqlException ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    conn.Close();
-                }
+                conn.Open();
+                t = (T)cmd.ExecuteScalar();
             }
-            return t;
         }
+        catch (DataException ex)
+        {
+            throw ex;
+        }
+        catch (SqlException ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
+    return t;
+}
     }
 }
